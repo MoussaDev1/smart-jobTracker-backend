@@ -27,6 +27,7 @@ public class JobApplicationRepositoryTest {
         assertThat(savedApp.getId()).isNotNull();
         var foundApp = repository.findById(savedApp.getId()).orElse(null);
 
+        assertThat(foundApp).isNotNull();
         assertThat(foundApp.getTitle()).isEqualTo("Software Engineer");
         assertThat(foundApp.getStatus()).isEqualTo(ApplicationStatus.APPLIED);
 
