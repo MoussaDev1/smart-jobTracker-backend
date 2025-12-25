@@ -1,6 +1,5 @@
-package com.moussadev1.smartjobtrackerbackend.Repository;
+package com.moussadev1.smartjobtrackerbackend.job;
 
-import com.moussadev1.smartjobtrackerbackend.Domain.JobApplication;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;
