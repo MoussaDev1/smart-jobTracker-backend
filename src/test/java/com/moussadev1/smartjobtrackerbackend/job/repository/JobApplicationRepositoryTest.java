@@ -3,7 +3,6 @@ package com.moussadev1.smartjobtrackerbackend.job.repository;
 import com.moussadev1.smartjobtrackerbackend.job.ApplicationStatus;
 import com.moussadev1.smartjobtrackerbackend.job.JobApplication;
 import com.moussadev1.smartjobtrackerbackend.job.JobApplicationRepository;
-import org.assertj.core.data.Offset;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -23,11 +22,8 @@ public class JobApplicationRepositoryTest {
     @Test
     void shouldSaveAndFindJobApplication() {
         JobApplication application = new JobApplication(
-                null,
                 "Software Engineer",
-                "Tech Corp",
-                null,
-                null
+                "Tech Corp"
         );
         JobApplication savedApp = repository.save(application);
 
@@ -36,7 +32,5 @@ public class JobApplicationRepositoryTest {
         assertThat(savedApp.getCompany()).isEqualTo("Tech Corp");
         assertThat(savedApp.getStatus()).isEqualTo(ApplicationStatus.TO_APPLY);
         assertThat(savedApp.getCreatedAt()).isCloseTo(LocalDateTime.now(), within(5, ChronoUnit.SECONDS));
-
-
     }
 }

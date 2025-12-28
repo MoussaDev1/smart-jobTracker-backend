@@ -1,7 +1,6 @@
 package com.moussadev1.smartjobtrackerbackend.job;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,7 +11,6 @@ import java.util.UUID;
 @Table(name = "job_applications")
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 public class JobApplication {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -29,6 +27,11 @@ public class JobApplication {
     private ApplicationStatus status;
 
     private LocalDateTime createdAt;
+
+    public JobApplication(String title, String company) {
+        this.title = title;
+        this.company = company;
+    }
 
     @PrePersist
     protected void onCreate() {
