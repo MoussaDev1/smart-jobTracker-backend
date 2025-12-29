@@ -1,16 +1,11 @@
-package com.moussadev1.smartjobtrackerbackend.job.service;
+package com.moussadev1.smartjobtrackerbackend.job;
 
-import com.moussadev1.smartjobtrackerbackend.job.ApplicationStatus;
-import com.moussadev1.smartjobtrackerbackend.job.JobApplication;
-import com.moussadev1.smartjobtrackerbackend.job.JobApplicationRepository;
-import com.moussadev1.smartjobtrackerbackend.job.JobApplicationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Optional;
 import java.util.UUID;
