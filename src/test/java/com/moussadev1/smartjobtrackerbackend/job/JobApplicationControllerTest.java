@@ -9,8 +9,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -44,5 +43,17 @@ public class JobApplicationControllerTest {
         mockMvc.perform(get("/api/jobs"))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[{'title':'Software Engineer','company':'Tech Corp'},{'title':'Data Analyst','company':'Data Inc'}]"));
+    }
+
+    @Test
+    void ShouldReturnJobApplicationById() throws Exception {
+        JobApplication job = new JobApplication("Software Engineer", "Tech Corp");
+        JobApplication savedJob = jobApplicationRepository.save(job);
+
+        mockMvc.perform(get("/api/jobs/" + savedJob.getId()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath(("$.id")).value(savedJob.getId().toString()))
+                .andExpect(jsonPath("$.title").value("Software Engineer"))
+                .andExpect(jsonPath("$.company").value("Tech Corp"));
     }
 }
