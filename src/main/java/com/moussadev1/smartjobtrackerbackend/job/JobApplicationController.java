@@ -18,13 +18,13 @@ public class JobApplicationController {
     @Autowired
     JobApplicationService service;
 
-    @PostMapping("/job")
+    @PostMapping("/jobs")
     public ResponseEntity<JobApplicationResponseDTO> createJobApplication(@RequestBody CreateJobApplicationRequestDTO request) {
         JobApplication jobApplication = service.create(request.title(), request.company());
         return ResponseEntity.ok(JobApplicationMapper.toResponseDTO(jobApplication));
     }
 
-    @GetMapping("/job/{id}")
+    @GetMapping("/jobs/{id}")
     public ResponseEntity<JobApplicationResponseDTO> getJobApplicationById(@PathVariable UUID id) {
         JobApplication jobApplication = service.findById(id);
         return ResponseEntity.ok(JobApplicationMapper.toResponseDTO(jobApplication));
@@ -39,7 +39,7 @@ public class JobApplicationController {
         return ResponseEntity.ok(jobApplications);
     }
 
-    @PutMapping("/job/{id}")
+    @PutMapping("/jobs/{id}")
     public ResponseEntity<JobApplicationResponseDTO> updateJobApplication(@PathVariable UUID id, @RequestBody UpdateJobApplicationRequestDTO UpdateRequest) {
         JobApplication updatedJobApplication = service.update(id, UpdateRequest.title(), UpdateRequest.company(), UpdateRequest.status());
         return ResponseEntity.ok(JobApplicationMapper.toResponseDTO(updatedJobApplication));
