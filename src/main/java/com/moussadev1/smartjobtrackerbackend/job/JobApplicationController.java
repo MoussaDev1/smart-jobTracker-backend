@@ -50,4 +50,10 @@ public class JobApplicationController {
         service.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PatchMapping("/jobs/{id}/status")
+    public ResponseEntity<JobApplicationResponseDTO> updateJobApplicationStatus(@PathVariable UUID id, @RequestParam ApplicationStatus status) {
+        JobApplication updatedJobApplication = service.updateStatus(id, status);
+        return ResponseEntity.ok(JobApplicationMapper.toResponseDTO(updatedJobApplication));
+    }
 }
