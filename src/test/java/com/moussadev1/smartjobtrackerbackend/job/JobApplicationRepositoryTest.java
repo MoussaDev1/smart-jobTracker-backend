@@ -1,8 +1,5 @@
-package com.moussadev1.smartjobtrackerbackend.job.repository;
+package com.moussadev1.smartjobtrackerbackend.job;
 
-import com.moussadev1.smartjobtrackerbackend.job.ApplicationStatus;
-import com.moussadev1.smartjobtrackerbackend.job.JobApplication;
-import com.moussadev1.smartjobtrackerbackend.job.JobApplicationRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
