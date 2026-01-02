@@ -11,9 +11,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class JobApplicationServiceTest {
@@ -83,7 +83,7 @@ public class JobApplicationServiceTest {
         when(repository.save(any(JobApplication.class))).thenReturn(application);
 
         //Act
-        JobApplication updatedApp = service.update(id, "New Title", "New Company", ApplicationStatus.APPLIED);
+        JobApplication updatedApp = service.update(id, "New Title", "New Company");
 
         //Assert
         assertThat(updatedApp).isNotNull();
@@ -108,5 +108,46 @@ public class JobApplicationServiceTest {
         //Assert
         verify(repository).existsById(id);
         verify(repository).deleteById(id);
+    }
+
+    @Test
+    void shouldUpdateStatus_WhenTransitionIsValid() {
+        // Arrange
+        UUID id = UUID.randomUUID();
+        JobApplication existingJob = new JobApplication();
+        existingJob.setId(id);
+        existingJob.setStatus(ApplicationStatus.TO_APPLY);
+
+        when(repository.findById(id)).thenReturn(Optional.of(existingJob));
+        when(repository.save(any(JobApplication.class))).thenReturn(existingJob);
+
+        // Act
+        JobApplication updatedAppStatus = service.updateStatus(id, ApplicationStatus.APPLIED);
+
+        // Assert
+        assertThat(updatedAppStatus).isNotNull();
+        assertThat(updatedAppStatus.getStatus()).isEqualTo(ApplicationStatus.APPLIED);
+
+        verify(repository).findById(id);
+        verify(repository).save(existingJob);
+    }
+
+    @Test
+    void shouldNotUpdateStatus_WhenTransitionIsInvalid() {
+        // Arrange
+        UUID id = UUID.randomUUID();
+        JobApplication existingJob = new JobApplication();
+        existingJob.setId(id);
+        existingJob.setStatus(ApplicationStatus.TO_APPLY);
+
+        when(repository.findById(id)).thenReturn(Optional.of(existingJob));
+
+        // Act & Assert
+        assertThrows(IllegalStateException.class, () -> {
+            service.updateStatus(id, ApplicationStatus.OFFER);
+        });
+
+        verify(repository).findById(id);
+        verify(repository, never()).save(any());
     }
 }

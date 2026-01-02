@@ -41,7 +41,7 @@ public class JobApplicationController {
 
     @PutMapping("/jobs/{id}")
     public ResponseEntity<JobApplicationResponseDTO> updateJobApplication(@PathVariable UUID id, @RequestBody UpdateJobApplicationRequestDTO UpdateRequest) {
-        JobApplication updatedJobApplication = service.update(id, UpdateRequest.title(), UpdateRequest.company(), UpdateRequest.status());
+        JobApplication updatedJobApplication = service.update(id, UpdateRequest.title(), UpdateRequest.company());
         return ResponseEntity.ok(JobApplicationMapper.toResponseDTO(updatedJobApplication));
     }
 

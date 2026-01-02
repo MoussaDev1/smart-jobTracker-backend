@@ -25,14 +25,12 @@ public class JobApplicationService {
         return repository.findAll();
     }
 
-    public JobApplication update(UUID id, String title, String company, ApplicationStatus status) {
+    public JobApplication update(UUID id, String title, String company) {
         JobApplication application = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Job Application not found with id: " + id));
         application.setTitle(title);
         application.setCompany(company);
-        application.setStatus(status);
         return repository.save(application);
-
     }
 
     public void deleteById(UUID id) {
@@ -40,5 +38,15 @@ public class JobApplicationService {
             throw new RuntimeException("Job Application not found with id: " + id);
         }
         repository.deleteById(id);
+    }
+
+    public JobApplication updateStatus(UUID id, ApplicationStatus newStatus) {
+        JobApplication application = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Job Application not found with id: " + id));
+        if(!application.getStatus().canTransitionTo(newStatus)){
+            throw new IllegalStateException("Invalid status transition from " + application.getStatus() + " to " + newStatus);
+        }
+        application.setStatus(newStatus);
+        return repository.save(application);
     }
 }
